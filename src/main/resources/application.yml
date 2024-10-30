@@ -1,0 +1,81 @@
+server:
+  port: 0
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    hostname: localhost
+spring:
+  kafka:
+    topic-sms: notificationservice-topic
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: notificationservice-group-id
+  application:
+    name: notification-service
+  main:
+    allow-circular-references: true
+  datasource:
+    url: jdbc:mysql://localhost:52000/notification_service?useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8
+    username: serviceuser
+    password: serviceuser
+    driverClassName: com.mysql.jdbc.Driver
+    testOnBorrow: true
+    validationQuery: SELECT 1
+  jpa:
+    hibernate:
+      ddl-auto: update
+      use-new-id-generator-mappings: false
+      naming-strategy: org.hibernate.cfg.EJB3NamingStrategy
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        show_sql: false
+        enable_lazy_load_no_trans: true
+        org:
+          hibernate:
+            envers:
+              store_data_at_delete: true
+        cache:
+          use_second_level_cache: false
+      javax:
+        persistence:
+          sharedCache:
+            mode: ALL
+#SMPP properties
+#host name or ip address of SMPP server
+host: smscsim.smpp.org
+#port number
+port: 2775
+#systemId is a unique identifier for the client application connecting to the SMSC
+systemId: 7e83eE2xlrujDmW
+#The password serves as a security measure to verify the identity of the client application
+password: okI0Mpxe
+#"SMPP": A general type indicating a standard SMPP client, "SMS Gateway": For SMS gateways that route messages. , "Application": For specific applications that send messages
+systemType: sys
+#Sender id
+senderid: AMJAM
+# "SMSC": Indicates a standard SMS message,"PROMO": A service type for promotional messages.
+serviceType: sys
+# 0: Indicates that no specific protocol is defined, 1: Can be used for SMS over GSM., 2: Might be designated for other specific services.
+protocolId: 0
+# 0 - Normal, 1 High , 2 Low priority
+priorityFlag: 0
+# It set as YYMMDDhhmmss with adding the the below minutes fromm the current date time , 0 to send as null so that immediate delivery
+validityPeriod: 0
+# 0: Do not replace the existing message (default behavior)., 1: Replace the existing message if it is present.
+replaceIfPresentFlag: 0
+# 0: No delivery receipt requested (default)., 1: Delivery receipt requested (indicates that a delivery report should be sent back).
+registeredDelivery: 1
+#0x00: Default SMS (text), 0x04: Flash SMS (displayed immediately). 0x08: Message containing a user data header (UDH).
+esmClass: 0
+# 0: Default (GSM 7-bit) , 1: ASCII (7-bit) - Used for standard ASCII characters., 2: Latin 1 (8-bit) - Extended Latin characters (ISO-8859-1)., 3: Unicode (16-bit) - Used for characters that require Unicode encoding (like Chinese, Arabic, etc.).Other values may be defined for specific use cases, such as binary data or application-specific encodings.
+dataCoding: 0
+#Set a default message ID (for example, 0 for a general message)
+smDefaultMsgId: 0
+
